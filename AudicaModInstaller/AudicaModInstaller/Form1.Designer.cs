@@ -51,6 +51,7 @@
             // 
             // Install
             // 
+            this.Install.AccessibleName = "Install";
             this.Install.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.Install.Location = new System.Drawing.Point(371, 340);
             this.Install.Name = "Install";

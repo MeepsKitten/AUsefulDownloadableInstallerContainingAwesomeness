@@ -12,12 +12,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
+using Newtonsoft.Json.Linq;
 
 namespace AudicaModInstaller
 {
     public partial class Audica : Form
     {
         private List<string> steamGameDirs = new List<string>();
+        int tasksDone = 0;
 
         public Audica()
         {
@@ -26,8 +28,13 @@ namespace AudicaModInstaller
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Install.Enabled = true;
+            button1.Enabled = true;
+            //populate steam game list
             SearchSteam();
-            foreach(var dir in steamGameDirs)
+
+            //find audica folder
+            foreach (var dir in steamGameDirs)
             {
                 var subDirs = Directory.GetDirectories(dir);
                 foreach(var subDir in subDirs)
@@ -38,6 +45,8 @@ namespace AudicaModInstaller
                     }
                 }
             }
+
+            tasksDone = 0;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -47,13 +56,45 @@ namespace AudicaModInstaller
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //diable button
+            Install.Enabled = false;
+            button1.Enabled = false;
+            
+            //get melon DL url
             string MelonDLAddress = new WebClient().DownloadString("https://raw.githubusercontent.com/MeepsKitten/AUsefulDownloadableInstallerContainingAwesomeness/main/MelonVersion.txt");         
-            Uri uri = new Uri(MelonDLAddress);
+            Uri MelonUri = new Uri(MelonDLAddress);
+            Uri ManagerUri;
 
+            //get mod manager dl url
+            HttpWebRequest request = WebRequest.Create("https://api.github.com/repos/Contiinuum/ModBrowser/releases/latest") as HttpWebRequest;
+            request.Method = "GET";
+            request.UserAgent = "AMI";
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            string modname;
+            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            {
+                string json = reader.ReadToEnd();
+                JObject data = JObject.Parse(json);
+                var downloadLink = data["assets"][0]["browser_download_url"];
+                ManagerUri = new Uri(downloadLink.ToString());
+                modname = data["assets"][0]["name"].ToString();
+            }
+
+            //download melon zip
             using (var client = new WebClient())
             {
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(MelonZipDownloadCallback);
-                client.DownloadFileAsync(uri, $"{label1.Text}\\melon.zip");
+                client.DownloadFileAsync(MelonUri, $"{label1.Text}\\melon.zip");
+            }
+
+            //download mod manager
+            using (var client = new WebClient())
+            {
+                if (!Directory.Exists($"{label1.Text}\\Mods"))
+                    Directory.CreateDirectory($"{label1.Text}\\Mods");
+
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(ModManagerDownloadCallback);
+                client.DownloadFileAsync(ManagerUri, $"{label1.Text}\\Mods\\{modname}");
             }
         }
 
@@ -72,10 +113,29 @@ namespace AudicaModInstaller
 
                 if (entry.Name != "")
                     entry.ExtractToFile(filename, true);
-            }           
+            }
+            melonZip.Dispose();
+            File.Delete($"{label1.Text}\\melon.zip");
+
+            ++tasksDone;
+
+            if(tasksDone > 1)
+            {
+                Install.Text = "Finished!";
+            }
         }
 
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        private void ModManagerDownloadCallback(object sender, AsyncCompletedEventArgs e)
+        {
+            ++tasksDone;
+
+            if (tasksDone > 1)
+            {
+                Install.Text = "Finished!";
+            }
+        }
+
+            private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
         {
 
         }

@@ -41,9 +41,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.MidnightBlue;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(-102, -53);
+            this.pictureBox1.Location = new System.Drawing.Point(-2, -29);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(663, 427);
+            this.pictureBox1.Size = new System.Drawing.Size(483, 357);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -53,7 +53,7 @@
             // 
             this.Install.AccessibleName = "Install";
             this.Install.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.Install.Location = new System.Drawing.Point(371, 340);
+            this.Install.Location = new System.Drawing.Point(379, 295);
             this.Install.Name = "Install";
             this.Install.Size = new System.Drawing.Size(87, 22);
             this.Install.TabIndex = 1;
@@ -63,17 +63,19 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(2, 340);
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label1.Location = new System.Drawing.Point(10, 295);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(326, 22);
             this.label1.TabIndex = 2;
-            this.label1.Text = "label1";
+            this.label1.Text = "Game Install Folder";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(334, 340);
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button1.Location = new System.Drawing.Point(342, 295);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(31, 22);
             this.button1.TabIndex = 3;
@@ -85,7 +87,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 365);
+            this.ClientSize = new System.Drawing.Size(476, 320);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Install);

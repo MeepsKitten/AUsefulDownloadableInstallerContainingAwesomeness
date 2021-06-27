@@ -10,5 +10,5 @@ A.U.D.I.C.A is an installer that automatically installs tools that will allow yo
 6) If you would like to install mods go to the settings menu In-Game and click "Download Mods"
 
 # Special Thanks:
-Continuum - Mod Manager Mod
-BaconKevin - Melon Audica Logo
+- Continuum - Mod Manager Mod
+- BaconKevin - Melon Audica Logo

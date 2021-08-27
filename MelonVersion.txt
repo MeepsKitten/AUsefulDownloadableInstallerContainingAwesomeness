@@ -1,1 +1,1 @@
-https://github.com/LavaGang/MelonLoader/releases/download/v0.4.0/MelonLoader.x64.zip
+https://github.com/LavaGang/MelonLoader/releases/download/v0.4.3/MelonLoader.x64.zip
